@@ -21,6 +21,9 @@ public class GManager : MonoBehaviour
     [SerializeField]
     private bool isMainMenu;
 
+    [SerializeField]
+    private int num_players;
+
 
     public Mirror.NetworkManager nm;
     // Start is called before the first frame update
