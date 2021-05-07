@@ -8,5 +8,8 @@ public class Tile : ScriptableObject
 {
     public new string name;
     public string description;
+
     public Sprite tileArt;
+
+
 }

@@ -8,7 +8,7 @@ public class PlayerNameInput : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private TMP_InputField nameInputField = null;
-    [SerializeField] private Button hostButton, playButton = null;
+    [SerializeField] private Button playButton = null;
 
     public static string DisplayName { get; private set; }
 
@@ -25,13 +25,12 @@ public class PlayerNameInput : MonoBehaviour
 
         nameInputField.text = defaultName;
 
-        SetPlayerName(defaultName);
+        SetPlayerName();
     }
 
-    public void SetPlayerName(string name)
+    public void SetPlayerName()
     {
-        hostButton.interactable = playButton.interactable = !string.IsNullOrWhiteSpace(name);
-        
+        playButton.interactable = !string.IsNullOrWhiteSpace(nameInputField.text) && !string.IsNullOrEmpty(nameInputField.text);
     }
 
     public void SavePlayerName()
