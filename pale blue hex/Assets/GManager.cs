@@ -102,7 +102,7 @@ public class GManager : MonoBehaviour
         }
     }
 
-    public void isMainMenuFalse()
+    public void setMainMenuFalse()
     {
         isMainMenu = false;
     }
