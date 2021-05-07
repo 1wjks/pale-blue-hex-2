@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour
     public void Start()
     {
         
+
+
         //Finds GM & UIC if not set at spawn
         if (gm == null)
         {
@@ -63,7 +65,6 @@ public class PlayerManager : MonoBehaviour
 
     public void Update()
     {
-        // if space bar pressedd
         if (Input.GetKeyDown(KeyCode.Space))
         {
             setCrystal(getCrystal() + 1);
@@ -74,12 +75,6 @@ public class PlayerManager : MonoBehaviour
     public void startTurn()
     {
         
-    }
-
-    [Command]
-    public void CMDEndTurn()
-    {
-        gm.GetComponent<GManager>().EndTurn();
     }
 
     private void UpdateUIText()

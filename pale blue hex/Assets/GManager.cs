@@ -4,26 +4,19 @@ using Mirror;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class GManager : MonoBehaviour
 {
 
+    [SerializeField] private UIcontroller uic;
 
-    [SerializeField]
-    private GameObject[] panels;
-    [SerializeField]
-    private TMP_InputField IP;
+    [SerializeField] private bool isMainMenu;
 
-    [SerializeField]
-    private UIcontroller uic;
-
-    [SerializeField]
-    private bool isMainMenu;
-
-    [SerializeField]
-    private int num_players;
-
+    [Header("UI")]
+    [SerializeField] private GameObject[] panels;
+    [SerializeField] private TMP_InputField IP;
 
     public Mirror.NetworkManager nm;
     // Start is called before the first frame update
@@ -62,38 +55,29 @@ public class GManager : MonoBehaviour
         turnCounter++;
     }
 
-    //Network Manager
+    //Host
 
-    public void StartHost()
+    public void HostLobby()
     {
         nm.StartHost();
     }
 
-    public void StartClient()
-    {
-        nm.networkAddress = IP.text;
-        
-        nm.StartClient();
-    }
-
-    public void StopClient()
-    {
-        nm.StopClient();
-    }
-
     //UI
 
+    //sets all panels to inactive then activates the one called
     public void PanelChanger(int p)
     {
         DeactivateAllPanels();
         panels[p].SetActive(true);
     }
 
+    //just a scenechanging method
     public void SceneChanger(int buildindex)
     {
         SceneManager.LoadScene(buildindex);
     }
 
+    //sets all the UI panels in the array to inactive
     public void DeactivateAllPanels()
     {
         foreach(GameObject p in panels)
@@ -102,7 +86,8 @@ public class GManager : MonoBehaviour
         }
     }
 
-    public void isMainMenuFalse()
+    //set the ismainmenu gameobject to false
+    public void setMainMenuFalse()
     {
         isMainMenu = false;
     }
