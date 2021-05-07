@@ -3203,7 +3203,7 @@ MonoBehaviour:
   - {fileID: 392989323}
   - {fileID: 479097177}
   IP: {fileID: 2083305136}
-  nm: {fileID: 0}
+  nm: {fileID: 1935750105}
   turnCounter: 0
 --- !u!114 &1935750105
 MonoBehaviour:
@@ -3237,6 +3237,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
+  minPlayers: 2
   menuScene: Assets/Scenes/MainMenu.unity
   roomPlayerPrefab: {fileID: 8219735137680298527, guid: b75c2486bffd2e14aad2627a06873c0b,
     type: 3}

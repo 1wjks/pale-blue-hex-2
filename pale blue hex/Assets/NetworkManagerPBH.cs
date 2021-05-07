@@ -1,5 +1,6 @@
 using Mirror;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ public class NetworkManagerPBH : NetworkManager
 {
     //VERY USEFUL FOR SCENE CHANGING
     //REFRENCES SCENE by name by dragging it in through the inspector
+    [SerializeField] private int minPlayers = 2;
+
     [Scene] [SerializeField] private string menuScene = string.Empty;
 
     [Header("Room")]
@@ -16,6 +19,7 @@ public class NetworkManagerPBH : NetworkManager
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
 
+    public List<NetworkRoomPlayerPBH> RoomPlayers { get; } = new List<NetworkRoomPlayerPBH>();
 
     //these two just make sure all gameobjects are under the spawnable prefabs so we dont have to add them manually
     public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
@@ -66,9 +70,52 @@ public class NetworkManagerPBH : NetworkManager
     {
         if ("Assets/Scenes/" + SceneManager.GetActiveScene().name + ".unity" == menuScene)//if in the lobby
         {
+            bool isLeader = RoomPlayers.Count == 0;
+
             NetworkRoomPlayerPBH roomPlayerInstance = Instantiate(roomPlayerPrefab);//add an instance of the room player prefab
+
+            roomPlayerInstance.IsLeader = isLeader;
 
             NetworkServer.AddPlayerForConnection(conn, roomPlayerInstance.gameObject);//tie together the connection and the gameobject
         }
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        if(conn.identity != null)
+        {
+            var player = conn.identity.GetComponent<NetworkRoomPlayerPBH>();
+            //if a client disconnects remove them from the player list
+            RoomPlayers.Remove(player);
+
+            NotifyPlayersOfReadyState();
+        }
+
+        base.OnServerDisconnect(conn);
+    }
+
+    public override void OnStopServer()
+    {
+        RoomPlayers.Clear();
+    }
+
+    public void NotifyPlayersOfReadyState()
+    {
+        foreach(var player in RoomPlayers)
+        {
+            player.HandleReadyToStart(IsReadyToStart());
+        }
+    }
+
+    private bool IsReadyToStart()
+    {
+        if (numPlayers < minPlayers) { return false; }
+
+        foreach(var player in RoomPlayers)
+        {
+            if (!player.IsReady) { return false; }
+        }
+
+        return true;
     }
 }
