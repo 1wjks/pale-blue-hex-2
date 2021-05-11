@@ -11,6 +11,8 @@ public class BoardManager : MonoBehaviour
 
     public int radius;
 
+    public int players;
+
     private int num_tiles;
 
     // public TileBase launchHex;
@@ -24,14 +26,33 @@ public class BoardManager : MonoBehaviour
         // Vector3Int[] positions = new Vector3Int[num_tiles];
         // TileBase[] tileArray = new TileBase[num_tiles];
 
-        for(int x=-1; x<= 1; x++)
-        {
-            for(int y=-1; y<= 1; y++)
-            {
-                map.SetTile(new Vector3Int(x, y, 0), spaceHex);
-            }
+        map.SetTile(new Vector3Int(0, 0, 0), spaceHex);
 
+        Vector3Int[] dirs = directions(players);
+
+        for(int x = 1; x < radius; x++)
+        {
+            foreach (Vector3Int dir in dirs) {
+                map.SetTile(dir * x, spaceHex);
+            }
         }
+
+    }
+
+    Vector3Int[] directions(int players) {
+        if (players == 2)
+            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(1, 0, 0)};
+        else if (players == 3)
+            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0)};
+        else if (players == 4)
+            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 0, 0)};
+        else if (players == 5)
+            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 1, 0)};
+        else if (players == 6)
+            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 1, 0), new Vector3Int(1, 0, 0)};
+        else
+            // TODO - Replace this with an error throw
+            return new Vector3Int[] {};
     }
 
     int calculate_tiles(int radius) {
