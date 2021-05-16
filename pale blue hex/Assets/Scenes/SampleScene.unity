@@ -676,7 +676,7 @@ MonoBehaviour:
   spaceHex: {fileID: 11400000, guid: 1d21d6ec95989455388b5d8be559ba04, type: 2}
   map: {fileID: 2034900087}
   radius: 6
-  players: 2
+  players: 3
 --- !u!1 &1055294574
 GameObject:
   m_ObjectHideFlags: 0

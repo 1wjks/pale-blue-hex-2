@@ -1,5 +1,6 @@
 // Fills tilemap area with checkerboard pattern of tileA and tileB
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Collections;
 
@@ -9,50 +10,51 @@ public class BoardManager : MonoBehaviour
 
     public Tilemap map;
 
-    public int radius;
+    [SerializeField] private int radius;
 
-    public int players;
+    [SerializeField] private int players;
 
-    private int num_tiles;
+    [SerializeField] private int num_tiles;
+
+    private Grid grid;
 
     // public TileBase launchHex;
     // public TileBase baseworldHex;
     void Start()
     {
         num_tiles = calculate_tiles(radius);
-        Debug.Log("Number of tiles: " + num_tiles);
-        map.ClearAllTiles();
+        grid = map.layoutGrid;
 
-        // Vector3Int[] positions = new Vector3Int[num_tiles];
-        // TileBase[] tileArray = new TileBase[num_tiles];
+        map.ClearAllTiles();
 
         map.SetTile(new Vector3Int(0, 0, 0), spaceHex);
 
-        Vector3Int[] dirs = directions(players);
+        Vector3[] dirs = directions(players);
 
         for(int x = 1; x < radius; x++)
         {
-            foreach (Vector3Int dir in dirs) {
-                map.SetTile(dir * x, spaceHex);
+            foreach (Vector3 dir in dirs) {
+                map.SetTile(grid.LocalToCell(dir * x * 0.866f), spaceHex);
+                Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
             }
         }
 
     }
 
-    Vector3Int[] directions(int players) {
+    Vector3[] directions(int players) {
         if (players == 2)
-            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(1, 0, 0)};
+            return new Vector3[] {Directions.U, Directions.D};
         else if (players == 3)
-            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0)};
+            return new Vector3[] {Directions.D, Directions.UR, Directions.UL};
         else if (players == 4)
-            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 0, 0)};
+            return new Vector3[] {Directions.D, Directions.DL, Directions.U, Directions.UR};
         else if (players == 5)
-            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 1, 0)};
+            return new Vector3[] {Directions.D, Directions.DL, Directions.DR, Directions.UL, Directions.UR};
         else if (players == 6)
-            return new Vector3Int[] {new Vector3Int(-1, 0, 0), new Vector3Int(-1, 1, 0), new Vector3Int(-1, 1, 0), new Vector3Int(1, -1, 0), new Vector3Int(1, 1, 0), new Vector3Int(1, 0, 0)};
+            return new Vector3[] {Directions.D, Directions.DL, Directions.DR, Directions.U, Directions.UL, Directions.UR};
         else
             // TODO - Replace this with an error throw
-            return new Vector3Int[] {};
+            return new Vector3[] {};
     }
 
     int calculate_tiles(int radius) {
