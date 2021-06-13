@@ -115,6 +115,6 @@ public class NetworkRoomPlayerPBH : NetworkBehaviour
     {
         if(Room.RoomPlayers[0].connectionToClient != connectionToClient) { return; }
 
-        //start game
+        Room.StartGame();
     }
 }

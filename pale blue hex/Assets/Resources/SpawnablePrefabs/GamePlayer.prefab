@@ -1687,12 +1687,12 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 6632775385832181884}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8219735137680298527}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkRoomPlayerPBH, Assembly-CSharp
         m_MethodName: CmdStartGame
         m_Mode: 1
@@ -1959,7 +1959,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8219735137680298527}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkRoomPlayerPBH, Assembly-CSharp
         m_MethodName: CmdReadyUp
         m_Mode: 1
@@ -2409,9 +2409,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8219735137680298525}
   - component: {fileID: 8219735137680298526}
-  - component: {fileID: 8219735137680298527}
+  - component: {fileID: 8502397630648025293}
   m_Layer: 0
-  m_Name: RoomPlayer
+  m_Name: GamePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2449,7 +2449,7 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &8219735137680298527
+--- !u!114 &8502397630648025293
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2458,29 +2458,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8219735137680298496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b224e57e14e4dca4392067d813ce04eb, type: 3}
+  m_Script: {fileID: 11500000, guid: a0e38730bb4718a46a66e9c5df54b7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  lobbyUI: {fileID: 8930566124612746287}
-  playerNameTexts:
-  - {fileID: 2533692873115775265}
-  - {fileID: 7682013714174195509}
-  - {fileID: 37552439909047054}
-  - {fileID: 4877206798100927471}
-  - {fileID: 6842091065171242062}
-  - {fileID: 2803748839100064642}
-  playerReadyTexts:
-  - {fileID: 458319882642475297}
-  - {fileID: 7980057215857123860}
-  - {fileID: 1421753396523526310}
-  - {fileID: 2714122614590753109}
-  - {fileID: 1697593432043771005}
-  - {fileID: 4468502878129750252}
-  startGameButton: {fileID: 1047818415585628884}
-  DisplayName: Loading...
-  IsReady: 0
 --- !u!1 &8221021045640416362
 GameObject:
   m_ObjectHideFlags: 0

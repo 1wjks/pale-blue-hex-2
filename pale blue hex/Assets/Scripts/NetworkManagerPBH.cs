@@ -16,10 +16,15 @@ public class NetworkManagerPBH : NetworkManager
     [Header("Room")]
     [SerializeField] private NetworkRoomPlayerPBH roomPlayerPrefab;//the lobby player prefab
 
+    [Header("Game")]
+    [SerializeField] private NetworkGamePlayerPBH gamePlayerPrefab;
+
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
 
     public List<NetworkRoomPlayerPBH> RoomPlayers { get; } = new List<NetworkRoomPlayerPBH>();
+    public List<NetworkGamePlayerPBH> GamePlayers { get; } = new List<NetworkGamePlayerPBH>();
+
 
     //these two just make sure all gameobjects are under the spawnable prefabs so we dont have to add them manually
     public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
@@ -117,5 +122,36 @@ public class NetworkManagerPBH : NetworkManager
         }
 
         return true;
+    }
+
+    public void StartGame()
+    {
+        if(SceneManager.GetActiveScene().path == menuScene)
+        {
+            Debug.Log("Starting!");
+
+            if (!IsReadyToStart())  { return; }
+
+            ServerChangeScene("Scene_Map_01");
+        }
+    }
+
+    public override void ServerChangeScene(string newSceneName)
+    {
+        if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Scene_Map"))
+        {
+            for(int i = RoomPlayers.Count - 1; i >= 0; i--)
+            {
+                var conn = RoomPlayers[i].connectionToClient;
+                var gameplayerInstance = Instantiate(gamePlayerPrefab);
+                gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+
+                NetworkServer.Destroy(conn.identity.gameObject);
+
+                NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
+            }
+        }
+
+        base.ServerChangeScene(newSceneName);
     }
 }
