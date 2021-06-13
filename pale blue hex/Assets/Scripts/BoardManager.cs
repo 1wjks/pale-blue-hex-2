@@ -43,6 +43,14 @@ public class BoardManager : MonoBehaviour
 
         for(int x = 1; x < radius; x++)
         {
+            if(x == radius)//only for where the planet hexes should be
+            {
+                foreach (Vector3 dir in dirs)
+                {
+                    map.SetTile(grid.LocalToCell(dir * x * 0.866f), spaceHex);
+                    Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
+                }
+            }
             foreach (Vector3 dir in dirs) {
                 map.SetTile(grid.LocalToCell(dir * x * 0.866f), spaceHex);
                 Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
