@@ -18,10 +18,20 @@ public class BoardManager : MonoBehaviour
 
     private Grid grid;
 
+    [SerializeField] private NetworkManagerPBH NetworkManager;
+
     // public TileBase launchHex;
     // public TileBase baseworldHex;
     void Start()
     {
+        //find the NetworkManager component on the gameManager
+        if (GameObject.Find("GameManager") != null)
+        {
+            NetworkManager = GameObject.Find("GameManager").GetComponent<NetworkManagerPBH>();
+            players = NetworkManager.GamePlayers.Count; //set the number of players connected to the tile number
+        }
+        
+
         num_tiles = calculate_tiles(radius);
         grid = map.layoutGrid;
 
