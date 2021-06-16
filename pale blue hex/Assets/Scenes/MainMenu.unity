@@ -3243,6 +3243,8 @@ MonoBehaviour:
     type: 3}
   gamePlayerPrefab: {fileID: 8502397630648025293, guid: 575e5f2e60fbcc24b9dd598bf8bc84fb,
     type: 3}
+  roundSystem: {fileID: 8567814225892907486, guid: 5511a140a4e473a4f868d2140e452e60,
+    type: 3}
 --- !u!1 &1941330938
 GameObject:
   m_ObjectHideFlags: 0

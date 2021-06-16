@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class NetworkGamePlayerPBH : NetworkBehaviour
 {
+    [Header("Resources")]
+    public int moolah = 0;
+    public int metal = 0;
+    public int crystal = 0;
+
+    public bool finishedRound = false;
 
     [SyncVar]
     private string displayName = "Loading...";
@@ -31,10 +37,22 @@ public class NetworkGamePlayerPBH : NetworkBehaviour
         Room.GamePlayers.Remove(this);
     }
 
+    [Command]
+    public void CmdCheckReady(RoundSystem rs)//tell the server to check if everyone is ready
+    {
+        Debug.Log("Checking ready");
+        rs.CheckToStartGame();
+    }
+
     [Server]
     public void SetDisplayName(string displayName)
     {
         this.displayName = displayName;
+    }
+
+    public void readyButtonFunction()
+    {
+        finishedRound = !finishedRound;
     }
 
 }

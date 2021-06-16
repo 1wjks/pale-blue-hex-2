@@ -18,6 +18,7 @@ public class NetworkManagerPBH : NetworkManager
 
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerPBH gamePlayerPrefab;
+    [SerializeField] private GameObject roundSystem;
 
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
@@ -102,6 +103,7 @@ public class NetworkManagerPBH : NetworkManager
     public override void OnStopServer()
     {
         RoomPlayers.Clear();
+        GamePlayers.Clear();
     }
 
     public void NotifyPlayersOfReadyState()
@@ -153,5 +155,16 @@ public class NetworkManagerPBH : NetworkManager
         }
 
         base.ServerChangeScene(newSceneName);
+    }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if (sceneName.StartsWith("Scene_Map"))
+        {
+            GameObject roundSystemInstance = Instantiate(roundSystem);
+            NetworkServer.Spawn(roundSystemInstance);
+        }
+
+        base.OnServerSceneChanged(sceneName);
     }
 }
