@@ -40,28 +40,8 @@ public class BoardManager : MonoBehaviour
 
         map.SetTile(new Vector3Int(0, 0, 0), spaceHex);
 
-        Vector3[] dirs = directions(players);
-
-        for(int x = 1; x < radius; x++)
-        {
-            if(x == radius-1)//only for where the planet hexes should be
-            {
-                foreach (Vector3 dir in dirs)
-                {
-                    map.SetTile(grid.LocalToCell(dir * x * 0.866f), planetHex);
-                    Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
-                }
-            }
-            else
-            {
-                foreach (Vector3 dir in dirs)
-                {
-                    map.SetTile(grid.LocalToCell(dir * x * 0.866f), spaceHex);
-                    Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
-                }
-            }
-            
-        }
+        FillEmptyBoard(radius);
+        PlacePlanets(radius, players);
 
     }
 
@@ -83,5 +63,45 @@ public class BoardManager : MonoBehaviour
 
     int calculate_tiles(int radius) {
         return 1 - 3 * radius + 3 * radius * radius ;
+    }
+
+    private Vector3 SecondaryDirection(Vector3 d)
+    {
+        if (d == Directions.U) { return Directions.UR; }
+        if (d == Directions.UR) { return Directions.DR; }
+        if (d == Directions.DR) { return Directions.D; }
+        if (d == Directions.D) { return Directions.DL; }
+        if (d == Directions.DL) { return Directions.UL; }
+        if (d == Directions.UL) { return Directions.U; }
+
+        return Vector3.zero;
+    }
+
+    private void FillEmptyBoard(int radius)
+    {
+        Vector3 sd;
+
+        for (int x = 1; x < radius; x++)
+        {
+            for (int y = 0; y < radius-x
+; y++)
+            {
+                foreach (Vector3 dir in directions(6))//all primary directions
+                {
+                    sd = SecondaryDirection(dir);
+                    map.SetTile(grid.LocalToCell(dir * x * 0.866f + sd * y * 0.866f), spaceHex);
+                    Debug.Log("Radius " + x + " | Cell " + grid.LocalToCell(dir * x));
+                }
+            }
+        }
+    }
+
+    private void PlacePlanets(int radius, int players)
+    {
+        foreach(Vector3 dir in directions(players))
+        {
+            map.SetTile(grid.LocalToCell(dir * (radius - 1) * 0.866f), planetHex);
+            Debug.Log("Radius " + (radius - 1) + " | Cell " + grid.LocalToCell(dir * (radius - 1)));
+        }
     }
 }

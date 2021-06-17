@@ -462,8 +462,8 @@ MonoBehaviour:
   spaceHex: {fileID: 11400000, guid: 1d21d6ec95989455388b5d8be559ba04, type: 2}
   planetHex: {fileID: 11400000, guid: 025a03544b88eee44b7a1520796bd293, type: 2}
   map: {fileID: 2034900087}
-  radius: 9
-  players: 4
+  radius: 11
+  players: 6
   num_tiles: 0
   NetworkManager: {fileID: 0}
 --- !u!1 &1055294574
